@@ -31,7 +31,7 @@ wget==3.2
 samplerate==0.1.0 #0.2.1
 screeninfo==0.8.1
 diffq
-playsound
+playsound @ git+https://github.com/killjoy1221/playsound.git
 onnx
 onnxruntime
 onnxruntime-gpu
