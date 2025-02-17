@@ -18,7 +18,7 @@ proc set_theme {mode} {
 		    -selectfg       "#F6F6F7"
 		    -selectbg       "#003b50"
 		}
-        
+
         ttk::style configure . \
             -background $colors(-bg) \
             -foreground $fgSet \
@@ -41,12 +41,12 @@ proc set_theme {mode} {
             selectForeground [ttk::style lookup . -selectforeground] \
             activeBackground [ttk::style lookup . -selectbackground] \
             activeForeground [ttk::style lookup . -selectforeground]
-        
+
         ttk::style map . -foreground [list disabled $colors(-disabledfg)]
 
         option add *font [ttk::style lookup . -font]
         option add *Menu.selectcolor $colors(-fg)
         option add *Menu.background #0e0e0f
-    
-	} 
+
+	}
 }

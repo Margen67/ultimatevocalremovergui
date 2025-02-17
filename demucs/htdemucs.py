@@ -629,11 +629,11 @@ class HTDemucs(nn.Module):
         # demucs issue #435 ##432
         # NOTE: in this case z already is on cpu
         # TODO: remove this when mps supports complex numbers
-        
+
         device_type = x.device.type
         device_load = f"{device_type}:{x.device.index}" if not device_type == 'mps' else device_type
         x_is_other_gpu = not device_type in ["cuda", "cpu"]
-        
+
         if x_is_other_gpu:
             x = x.cpu()
 

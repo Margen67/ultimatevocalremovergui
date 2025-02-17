@@ -11,7 +11,7 @@ class STFT:
         self.device = device
 
     def __call__(self, x):
-        
+
         x_is_mps = not x.device.type in ["cuda", "cpu"]
         if x_is_mps:
             x = x.cpu()
@@ -30,7 +30,7 @@ class STFT:
         return x[..., :self.dim_f, :]
 
     def inverse(self, x):
-        
+
         x_is_mps = not x.device.type in ["cuda", "cpu"]
         if x_is_mps:
             x = x.cpu()
@@ -249,5 +249,3 @@ class TFC_TDF_net(nn.Module):
         x = self.stft.inverse(x)
 
         return x
-
-

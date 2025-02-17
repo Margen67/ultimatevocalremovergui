@@ -247,7 +247,7 @@ def apply_model_v1(model, mix, shifts=None, split=False, progress=False, set_pro
     channels, length = mix.size()
     device = mix.device
     progress_value = 0
-    
+
     if split:
         out = th.zeros(4, channels, length, device=device)
         shift = model.samplerate * 10
@@ -290,7 +290,7 @@ def apply_model_v1(model, mix, shifts=None, split=False, progress=False, set_pro
         return center_trim(out, mix)
 
 def apply_model_v2(model, mix, shifts=None, split=False,
-                overlap=0.25, transition_power=1., progress=False, set_progress_bar=None): 
+                overlap=0.25, transition_power=1., progress=False, set_progress_bar=None):
     """
     Apply model to a given mixture.
 
@@ -304,12 +304,12 @@ def apply_model_v2(model, mix, shifts=None, split=False,
             Useful for model with large memory footprint like Tasnet.
         progress (bool): if True, show a progress bar (requires split=True)
     """
-    
+
     assert transition_power >= 1, "transition_power < 1 leads to weird behavior."
     device = mix.device
     channels, length = mix.shape
     progress_value = 0
-    
+
     if split:
         out = th.zeros(len(model.sources), channels, length, device=device)
         sum_weight = th.zeros(length, device=device)
@@ -351,7 +351,7 @@ def apply_model_v2(model, mix, shifts=None, split=False,
         for _ in range(shifts):
             offset = random.randint(0, max_shift)
             shifted = TensorChunk(padded_mix, offset, length + max_shift - offset)
-            
+
             if set_progress_bar:
                 progress_value += 1
                 shifted_out = apply_model_v2(model, shifted, set_progress_bar=set_progress_bar)
