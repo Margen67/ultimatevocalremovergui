@@ -1,0 +1,7 @@
+__pycache__
+*.bat
+*.exe
+*.pkl
+*.ps1
+*.pyc
+venv
