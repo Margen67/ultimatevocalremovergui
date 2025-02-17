@@ -1,5 +1,5 @@
 altgraph==0.17.3 #0.17.4
-audioread==3.0.0 #3.0.1
+audioread==3.0.1
 certifi==2022.12.07 #2025.1.31
 cffi==1.15.1 #1.17.1
 cryptography==3.4.6 #44.0.1
