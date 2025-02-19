@@ -1,6 +1,6 @@
 #altgraph==0.17.3 #0.17.4
 audioread==3.0.1
-certifi==2022.12.07 #2025.1.31
+certifi==2025.1.31
 #cffi==1.15.1 #1.17.1
 cryptography==44.0.1
 einops==0.8.1
@@ -12,30 +12,29 @@ librosa==0.11.0rc0
 matchering==2.0.6
 ml_collections==1.0.0
 natsort==8.4.0
-omegaconf==2.2.3 #2.4.0.dev3
+omegaconf==2.4.0.dev3
 #opencv-python==4.6.0.66 #4.11.0.86
 Pillow==11.1.0
-psutil==5.9.4 #7.0.0
+psutil==7.0.0
 pydub==0.25.1
-pyglet==1.5.23 #2.1.2
-pyperclip==1.8.2 #1.9.0
+pyglet==2.1.2
+pyperclip==1.9.0
 pyrubberband==0.4.0
-pytorch_lightning==2.0.0 #2.5.0.post0
+pytorch_lightning==2.5.0.post0
 #PyYAML==6.0 #6.0.2
 #resampy==0.4.2 #0.4.3
-scipy==1.9.3 #1.15.2
+scipy==1.15.2
 soundstretch==1.2
 torch
 #urllib3==1.26.12 #2.3.0
 wget==3.2
 samplerate==0.2.1
 screeninfo==0.8.1
-diffq
+diffq==0.2.4
 playsound @ git+https://github.com/killjoy1221/playsound.git
-onnx
-onnxruntime
-onnxruntime-gpu
-onnx2pytorch
-soundfile==0.13.1; sys_platform != 'darwin'
-PySoundFile==0.9.0.post1; sys_platform == 'darwin'
-numpy==1.24.2 #2.2.3
+onnx==1.17.0
+onnxruntime==1.20.1
+onnxruntime-gpu==1.20.1
+onnx2pytorch==0.5.1
+soundfile==0.13.1
+numpy==2.1.3 # numba only supports numpy <2.2 https://github.com/numba/numba/issues/9838
