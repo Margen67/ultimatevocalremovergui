@@ -1,5 +1,5 @@
 #altgraph==0.17.3 #0.17.4
-audioread==3.0.1
+audioread @ git+https://github.com/lucas42/audioread.git@python-3.13 # https://github.com/beetbox/audioread/pull/145
 certifi==2025.1.31
 #cffi==1.15.1 #1.17.1
 cryptography==44.0.1
@@ -32,7 +32,7 @@ samplerate==0.2.1
 screeninfo==0.8.1
 diffq==0.2.4
 playsound @ git+https://github.com/killjoy1221/playsound.git
-onnx==1.17.0
+onnx==1.17.0 # The next release (1.18) will have Python 3.13 support: https://github.com/onnx/onnx/issues/6712
 onnxruntime==1.20.1
 onnxruntime-gpu==1.20.1
 onnx2pytorch==0.5.1
