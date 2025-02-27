@@ -12,6 +12,7 @@ import os
 import pickle
 import psutil
 from pyglet import font as pyglet_font
+import pyglet
 import pyperclip
 import base64
 import queue
@@ -1814,6 +1815,7 @@ class MainWindow(TkinterDnD.Tk if is_dnd_compatible else tk.Tk):
     def set_app_font(self):
         chosen_font_name, chosen_font_file = font_checker(OWN_FONT_PATH)
 
+        pyglet.options.win32_gdi_font = True
         if chosen_font_name:
             gui_data.sv_ttk.set_theme("dark", chosen_font_name, 10)
             if chosen_font_file:
