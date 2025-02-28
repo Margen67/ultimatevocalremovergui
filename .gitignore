@@ -1,0 +1,54 @@
+# Python
+*.pyc
+__pycache__
+.env
+.venv
+env
+venv
+
+# Audio
+*.aac
+*.ac3
+*.aiff
+*.alac
+*.avi
+*.eac3
+*.f4v
+*.flac
+*.flic
+*.flv
+*.m4a
+*.mkv
+*.mlv
+*.mov
+*.mp2
+*.mp3
+*.mp4
+*.mpc8
+*.mpc
+*.mpg
+*.mpeg
+*.ogg
+*.opus
+*.tta
+*.tty
+*.vcd
+*.wav
+*.wave
+*.webm
+*.wma
+temp_sample_clips
+
+# AI
+*.ckpt
+*.pkl
+*.pth
+*.tmp
+
+# Shell/Binary
+*.bat
+*.ps1
+*.exe
+
+# Other
+*.zip
