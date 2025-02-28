@@ -38,14 +38,14 @@ def _getWindowingArray(window_size, fade_size):
 
 def dBgain(audio, volume_gain_dB):
     gain = 10 ** (volume_gain_dB / 20)
-    gained_audio = audio * gain 
+    gained_audio = audio * gain
     return gained_audio
 
 def check_gpu_availability(is_gpu_conversion, device_set, is_use_directml):
     device = CPU
     is_other_gpu = False
     #is_using_directml = False
-    
+
     if is_gpu_conversion >= 0:
         if mps_available:
             device, is_other_gpu = MPS_DEVICE, True
@@ -60,11 +60,11 @@ def check_gpu_availability(is_gpu_conversion, device_set, is_use_directml):
                 #is_using_directml = True
             elif cuda_available and not is_use_directml:
                 device = CUDA_DEVICE if not device_prefix else f'{device_prefix}:{device_set}'
-                
+
     return device, is_other_gpu
-            
+
 def restore_process(input_wav, ckpt_path, overlap=2, chunk_size=10, set_progress_bar=None, is_gpu_conversion=0, device_set=DEFAULT, is_use_directml=False, extracted_params=None, config=None):
-    
+
     device, is_other_gpu = check_gpu_availability(is_gpu_conversion, device_set, is_use_directml)
 
     global progress_value
@@ -90,21 +90,21 @@ def restore_process(input_wav, ckpt_path, overlap=2, chunk_size=10, set_progress
     model = models.BaseModel.from_pretrain(ckpt_path, **extracted_params).to(device)
 
     audio_data, samplerate = load_audio(input_wav)
-    
+
     C = chunk_size * samplerate  # chunk_size seconds to samples
     N = overlap
-    
+
     step = C // N if overlap else C
     step_ui = int(step)
-    
+
     fade_sec = 3 if chunk_size >= 3 else chunk_size
 
     fade_size = fade_sec * 44100 # 3 seconds
     border = C - step
-    
+
     # handle mono inputs correctly
     if len(audio_data.shape) == 1:
-        audio_data = audio_data.unsqueeze(0) 
+        audio_data = audio_data.unsqueeze(0)
 
     # Pad the input if necessary
     if audio_data.shape[1] > 2 * border and (border > 0):
@@ -140,7 +140,7 @@ def restore_process(input_wav, ckpt_path, overlap=2, chunk_size=10, set_progress
         counter[..., i:i+length] += window[..., :length]
 
         i += step
-        
+
         if set_progress_bar:
             progress_bar_ui(batch_len)
 
@@ -156,5 +156,5 @@ def restore_process(input_wav, ckpt_path, overlap=2, chunk_size=10, set_progress
     model.cpu()
     del model
     clear_gpu_cache()
-    
+
     return final_output

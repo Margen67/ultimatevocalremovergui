@@ -457,9 +457,9 @@ class BSRoformer(Module):
         """
 
         original_device = raw_audio.device
-        
+
         x_is_mps = True if original_device.type == 'mps' else False
-        
+
         if x_is_mps:
             raw_audio = raw_audio.cpu()
 
@@ -521,7 +521,7 @@ class BSRoformer(Module):
 
         mask = torch.stack([fn(x) for fn in self.mask_estimators], dim=1)
         mask = rearrange(mask, 'b n t (f c) -> b n f t c', c=2)
-        
+
         if x_is_mps:
             mask = mask.to('cpu')
 

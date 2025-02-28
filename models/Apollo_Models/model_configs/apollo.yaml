@@ -1,4 +1,4 @@
-exp: 
+exp:
   dir: ./Exps
   name: Apollo
 datas:
@@ -100,4 +100,3 @@ trainer:
   accelerator: cuda
   limit_train_batches: 1.0
   fast_dev_run: false
-  

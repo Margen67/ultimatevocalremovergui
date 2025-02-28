@@ -23,7 +23,7 @@ class AbstractMDXNet(LightningModule):
     def get_optimizer(self):
         if self.optimizer == 'rmsprop':
             return torch.optim.RMSprop(self.parameters(), self.lr)
-        
+
         if self.optimizer == 'adamw':
             return torch.optim.AdamW(self.parameters(), self.lr)
 
@@ -44,10 +44,10 @@ class ConvTDFNet(AbstractMDXNet):
 
         if optimizer == 'rmsprop':
             norm = nn.BatchNorm2d
-            
+
         if optimizer == 'adamw':
             norm = lambda input:nn.GroupNorm(2, input)
-            
+
         self.n = num_blocks // 2
         scale = (2, 2)
 
@@ -118,14 +118,14 @@ class ConvTDFNet(AbstractMDXNet):
         x = self.final_conv(x)
 
         return x
-    
+
 class Mixer(nn.Module):
     def __init__(self, device, mixer_path):
-        
+
         super(Mixer, self).__init__()
-        
+
         self.linear = nn.Linear((dim_s+1)*2, dim_s*2, bias=False)
-        
+
         self.load_state_dict(
             torch.load(mixer_path, map_location=device)
         )

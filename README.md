@@ -22,7 +22,7 @@ These bundles contain the UVR interface, Python, PyTorch, and other dependencies
 ### Windows Installation
 
 - Please Note:
-    - This installer is intended for those running Windows 10 or higher. 
+    - This installer is intended for those running Windows 10 or higher.
     - Application functionality for systems running Windows 7 or lower is not guaranteed.
     - Application functionality for Intel Pentium & Celeron CPUs systems is not guaranteed.
     - You must install UVR to the main C:\ drive. Installing UVR to a secondary drive will cause instability.
@@ -98,13 +98,13 @@ In order to use the Time Stretch or Change Pitch tool, you'll need Rubber Band.
 > Due to Apples strict application security, you may need to follow these steps to open UVR.
 >
 > First, run the following command via Terminal.app to allow applications to run from all sources (it's recommended that you re-enable this once UVR opens properly.)
-> 
+>
 > ```bash
 > sudo spctl --master-disable
 > ```
-> 
-> Second, run the following command to bypass Notarization: 
-> 
+>
+> Second, run the following command to bypass Notarization:
+>
 > ```bash
 > sudo xattr -rd com.apple.quarantine /Applications/Ultimate\ Vocal\ Remover.app
 > ```
@@ -118,13 +118,13 @@ In order to use the Time Stretch or Change Pitch tool, you'll need Rubber Band.
 
 - Download and save this repository [here](https://github.com/Anjok07/ultimatevocalremovergui/archive/refs/heads/master.zip)
 - Download and install Python 3.10 [here](https://www.python.org/ftp/python/3.10.9/python-3.10.9-macos11.pkg)
-- From the saved directory run the following - 
+- From the saved directory run the following -
 
 ```
 pip3 install -r requirements.txt
 ```
 
-- If your Mac is running with an M1, please run the following command next. If not, skip this step. - 
+- If your Mac is running with an M1, please run the following command next. If not, skip this step. -
 
 ```
 cp /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/_soundfile_data/libsndfile_arm64.dylib /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/_soundfile_data/libsndfile.dylib
@@ -215,19 +215,19 @@ python UVR.py
 ---
 
 #### **Important Notes**
-1. **Avoid Modifying System Files:**  
+1. **Avoid Modifying System Files:**
    Previous instructions suggested deleting the `/usr/lib/python3.11/EXTERNALLY-MANAGED` file, which is dangerous and can break Python package management. Do **NOT** delete this file.
 
-2. **Why Use Virtual Environments?**  
+2. **Why Use Virtual Environments?**
    Virtual environments isolate the program's dependencies, preventing conflicts with system Python packages. More information is available [here](https://stackoverflow.com/questions/75602063/pip-install-r-requirements-txt-is-failing-this-environment-is-externally-mana/75696359#75696359).
 
-3. **Known Issues and Discussions:**  
-   - [Issue #1578](https://github.com/Anjok07/ultimatevocalremovergui/issues/1578)  
+3. **Known Issues and Discussions:**
+   - [Issue #1578](https://github.com/Anjok07/ultimatevocalremovergui/issues/1578)
    - [Pull Request #1068](https://github.com/Anjok07/ultimatevocalremovergui/pull/1068)
 
 ---
 
-If you encounter issues, refer to the [GitHub Issues](https://github.com/Anjok07/ultimatevocalremovergui/issues) page for help. 
+If you encounter issues, refer to the [GitHub Issues](https://github.com/Anjok07/ultimatevocalremovergui/issues) page for help.
 
 </details>
 
@@ -236,12 +236,12 @@ If you encounter issues, refer to the [GitHub Issues](https://github.com/Anjok07
 - Nvidia GPUs with at least 8GBs of V-RAM are recommended.
 - AMD Radeon GPU supported is limited at this time.
    - There is currently a working branch for AMD GPU users [here](https://github.com/Anjok07/ultimatevocalremovergui/tree/v5.6-amd-gpu)
-- This application is only compatible with 64-bit platforms. 
+- This application is only compatible with 64-bit platforms.
 - This application relies on the Rubber Band library for the Time-Stretch and Pitch-Shift options.
 - This application relies on FFmpeg to process non-wav audio files.
 - The application will automatically remember your settings when closed.
-- Conversion times will significantly depend on your hardware. 
-- These models are computationally intensive. 
+- Conversion times will significantly depend on your hardware.
+- These models are computationally intensive.
 
 ### Performance:
 - Model load times are faster.
@@ -261,31 +261,31 @@ This issue was being tracked [here](https://github.com/Anjok07/ultimatevocalremo
 
 ### Issue Reporting
 
-Please be as detailed as possible when posting a new issue. 
+Please be as detailed as possible when posting a new issue.
 
 If possible, click the "Settings Button" to the left of the "Start Processing" button and click the "Error Log" button for detailed error information that can be provided to us.
 
 ## License
 
-The **Ultimate Vocal Remover GUI** code is [MIT-licensed](LICENSE). 
+The **Ultimate Vocal Remover GUI** code is [MIT-licensed](LICENSE).
 
 - **Please Note:** For all third-party application developers who wish to use our models, please honor the MIT license by providing credit to UVR and its developers.
 
 ## Credits
-- [ZFTurbo](https://github.com/ZFTurbo) - Created & trained the weights for the new MDX23C models. 
+- [ZFTurbo](https://github.com/ZFTurbo) - Created & trained the weights for the new MDX23C models.
 - [DilanBoskan](https://github.com/DilanBoskan) - Your contributions at the start of this project were essential to the success of UVR. Thank you!
 - [Bas Curtiz](https://www.youtube.com/user/bascurtiz) - Designed the official UVR logo, icon, banner, and splash screen.
-- [tsurumeso](https://github.com/tsurumeso) - Developed the original VR Architecture code. 
-- [Kuielab & Woosung Choi](https://github.com/kuielab) - Developed the original MDX-Net AI code. 
-- [Adefossez & Demucs](https://github.com/facebookresearch/demucs) - Developed the original Demucs AI code. 
+- [tsurumeso](https://github.com/tsurumeso) - Developed the original VR Architecture code.
+- [Kuielab & Woosung Choi](https://github.com/kuielab) - Developed the original MDX-Net AI code.
+- [Adefossez & Demucs](https://github.com/facebookresearch/demucs) - Developed the original Demucs AI code.
 - [KimberleyJSN](https://github.com/KimberleyJensen) - Advised and aided the implementation of the training scripts for MDX-Net and Demucs. Thank you!
 - [Hv](https://github.com/NaJeongMo/Colab-for-MDX_B) - Helped implement chunks into the MDX-Net AI code. Thank you!
 
 ## Contributing
 
-- For anyone interested in the ongoing development of **Ultimate Vocal Remover GUI**, please send us a pull request, and we will review it. 
-- This project is 100% open-source and free for anyone to use and modify as they wish. 
-- We only maintain the development and support for the **Ultimate Vocal Remover GUI** and the models provided. 
+- For anyone interested in the ongoing development of **Ultimate Vocal Remover GUI**, please send us a pull request, and we will review it.
+- This project is 100% open-source and free for anyone to use and modify as they wish.
+- We only maintain the development and support for the **Ultimate Vocal Remover GUI** and the models provided.
 
 ## References
 - [1] Takahashi et al., "Multi-scale Multi-band DenseNets for Audio Source Separation", https://arxiv.org/pdf/1706.09588.pdf

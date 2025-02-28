@@ -9,7 +9,7 @@ is_using_other_gpu = lambda device: not (device == "cpu" or device.startswith("c
 class RMSNorm(nn.Module):
     def __init__(self, dimension, groups=1):
         super().__init__()
-        
+
         self.weight = nn.Parameter(torch.ones(dimension))
         self.groups = groups
         self.eps = 1e-5
@@ -25,14 +25,14 @@ class RMSNorm(nn.Module):
         input_norm = input_float * torch.rsqrt(input_float.pow(2).mean(-2, keepdim=True) + self.eps)
 
         return input_norm.type_as(input.to(self.weight.device)).reshape(B, N, T) * self.weight.reshape(1, -1, 1)
-    
+
 class RMVN(nn.Module):
     """
     Rescaled MVN.
     """
     def __init__(self, dimension, groups=1):
         super(RMVN, self).__init__()
-        
+
         self.mean = nn.Parameter(torch.zeros(dimension))
         self.std = nn.Parameter(torch.ones(dimension))
         self.groups = groups
@@ -49,12 +49,12 @@ class RMVN(nn.Module):
         input_norm = input_norm.reshape(B, N, T) * self.std.reshape(1, -1, 1) + self.mean.reshape(1, -1, 1)
 
         return input_norm.reshape(input.shape)
-    
+
 class Roformer(nn.Module):
     """
     Transformer with rotary positional embedding.
     """
-    def __init__(self, input_size, hidden_size, num_head=8, theta=10000, window=10000, 
+    def __init__(self, input_size, hidden_size, num_head=8, theta=10000, window=10000,
                  input_drop=0., attention_drop=0., causal=True):
         super().__init__()
 
@@ -67,7 +67,7 @@ class Roformer(nn.Module):
         cos_freq, sin_freq = self._calc_rotary_emb()
         self.register_buffer("cos_freq", cos_freq)  # win, N
         self.register_buffer("sin_freq", sin_freq)  # win, N
-        
+
         self.attention_drop = attention_drop
         self.causal = causal
         self.eps = 1e-5
@@ -93,7 +93,7 @@ class Roformer(nn.Module):
         sin_freq = torch.stack([sin_freq]*2, -1).reshape(self.window, self.hidden_size)  # win, N
 
         return cos_freq, sin_freq
-    
+
     def _add_rotary_emb(self, feature, pos):
         # feature shape: ..., N
         N = feature.shape[-1]
@@ -105,7 +105,7 @@ class Roformer(nn.Module):
         reverse_sign = torch.from_numpy(np.asarray([-1, 1])).to(feature.device).type(feature.dtype)
         feature_reshape_neg = (torch.flip(feature_reshape.reshape(-1, N//2, 2), [-1]) * reverse_sign.reshape(1, 1, 2)).reshape(-1, N)
         feature_rope = feature_reshape * cos_freq.unsqueeze(0) + feature_reshape_neg * sin_freq.unsqueeze(0)
-    
+
         return feature_rope.reshape(feature.shape)
 
     def _add_rotary_sequence(self, feature):
@@ -118,9 +118,9 @@ class Roformer(nn.Module):
         reverse_sign = torch.from_numpy(np.asarray([-1, 1])).to(feature.device).type(feature.dtype)
         feature_reshape_neg = (torch.flip(feature_reshape.reshape(-1, N//2, 2), [-1]) * reverse_sign.reshape(1, 1, 2)).reshape(-1, T, N)
         feature_rope = feature_reshape * cos_freq.unsqueeze(0) + feature_reshape_neg * sin_freq.unsqueeze(0)
-    
+
         return feature_rope.reshape(feature.shape)
-    
+
     def forward(self, input):
         # input shape: B, N, T
 
@@ -128,7 +128,7 @@ class Roformer(nn.Module):
 
         weight = self.weight(self.input_drop(self.input_norm(input))).reshape(B, self.num_head, self.hidden_size*3, T).mT
         Q, K, V = torch.split(weight, self.hidden_size, dim=-1)  # B, num_head, T, N
-        
+
         # rotary positional embedding
         Q_rot = self._add_rotary_sequence(Q)
         K_rot = self._add_rotary_sequence(K)
@@ -141,11 +141,11 @@ class Roformer(nn.Module):
         output = output + self.MLP_output(F.silu(gate) * z)
 
         return output, (K_rot, V)
-    
+
 class ConvActNorm1d(nn.Module):
     def __init__(self, in_channel, hidden_channel, kernel=7, causal=False):
         super(ConvActNorm1d, self).__init__()
-        
+
         self.in_channel = in_channel
         self.kernel = kernel
         self.causal = causal
@@ -163,9 +163,9 @@ class ConvActNorm1d(nn.Module):
                                       nn.SiLU(),
                                       nn.Conv1d(hidden_channel, in_channel, 1)
                                      )
-        
+
     def forward(self, input):
-        
+
         output = self.conv(input)
         if self.causal:
             output = output[...,:-self.kernel+1]
@@ -174,14 +174,14 @@ class ConvActNorm1d(nn.Module):
 class ICB(nn.Module):
     def __init__(self, in_channel, kernel=7, causal=False):
         super(ICB, self).__init__()
-        
+
         self.blocks = nn.Sequential(ConvActNorm1d(in_channel, in_channel*4, kernel, causal=causal),
                                     ConvActNorm1d(in_channel, in_channel*4, kernel, causal=causal),
                                     ConvActNorm1d(in_channel, in_channel*4, kernel, causal=causal)
                                     )
-        
+
     def forward(self, input):
-        
+
         return self.blocks(input)
 
 class BSNet(nn.Module):
@@ -207,17 +207,17 @@ class BSNet(nn.Module):
         output = self.seq_net(band_output.reshape(B*nband, -1, T)).reshape(B, nband, -1, T)  # B, nband, N, T
 
         return output
-    
+
 class Apollo(BaseModel):
     def __init__(
-        self, 
+        self,
         sr: int,
         win: int,
         feature_dim: int,
         layer: int
     ):
         super().__init__(sample_rate=sr)
-        
+
         self.sr = sr
         self.win = int(sr * win // 1000)
         self.stride = self.win // 2
@@ -242,7 +242,7 @@ class Apollo(BaseModel):
         for _ in range(layer):
             self.net.append(BSNet(self.feature_dim))
         self.net = nn.Sequential(*self.net)
-        
+
         self.output = nn.ModuleList([])
         for i in range(self.nband):
             self.output.append(nn.Sequential(RMSNorm(self.feature_dim),
@@ -260,7 +260,7 @@ class Apollo(BaseModel):
         if is_other_gpu:
             input = input.cpu()
         #print("MADE IT HERE 262")
-        spec = torch.stft(input.view(B*nch, nsample), n_fft=self.win, hop_length=self.stride, 
+        spec = torch.stft(input.view(B*nch, nsample), n_fft=self.win, hop_length=self.stride,
                           window=torch.hann_window(self.win).to(input.device), return_complex=True)
 
         if is_other_gpu:
@@ -276,7 +276,7 @@ class Apollo(BaseModel):
             subband_spec.append(this_spec)  # B, BW, T
             subband_power.append((this_spec.abs().pow(2).sum(1) + self.eps).sqrt().unsqueeze(1))  # B, 1, T
             normalized_spec = torch.complex(this_spec.real / subband_power[-1], this_spec.imag / subband_power[-1])
-                
+
             subband_spec_norm.append(normalized_spec)
             band_idx += self.band_width[i]
         subband_power = torch.cat(subband_power, 1)  # B, nband, T
@@ -284,9 +284,9 @@ class Apollo(BaseModel):
         return subband_spec_norm, subband_power
 
     def feature_extractor(self, input):
-        
+
         subband_spec_norm, subband_power = self.spec_band_split(input)
-        
+
         # normalization and bottleneck
         subband_feature = []
         for i in range(self.nband):
@@ -295,7 +295,7 @@ class Apollo(BaseModel):
         subband_feature = torch.stack(subband_feature, 1)  # B, nband, N, T
 
         return subband_feature
-        
+
     def forward(self, input):
         B, nch, nsample = input.shape
 
@@ -319,15 +319,15 @@ class Apollo(BaseModel):
             RI_input = torch.complex(this_RI[:,0], this_RI[:,1])
             est_spec.append(RI_input)
         est_spec = torch.cat(est_spec, 1)
-        output = torch.istft(est_spec, n_fft=self.win, hop_length=self.stride, 
+        output = torch.istft(est_spec, n_fft=self.win, hop_length=self.stride,
                              window=torch.hann_window(self.win).to(input.device), length=nsample).view(B, nch, -1)
-        
+
         #print("MADE IT HERE")
         if is_other_gpu:
             output = output.to(device)
 
         return output
-    
+
     def get_model_args(self):
         model_args = {"n_sample_rate": 2}
         return model_args
