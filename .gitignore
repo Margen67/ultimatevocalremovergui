@@ -47,6 +47,7 @@ temp_sample_clips
 
 # Shell/Binary
 *.bat
+*.dll
 *.ps1
 *.exe
 
